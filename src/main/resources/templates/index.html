@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<h1> Welcome to Soul bank! </h1>
+<p th:text="${slogan}">[slogan] </p>
+<h2> Register here!</h2>
+<form th:action="@{/}" th:object="${registerForm}" method="post">
+
+    <p>Username: <input type="text" th:field="*{name}"/></p>
+    <p style="background-color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+    <p> <input type="submit" value="submit"/></p>
+
+</form>
+
+<div th:if="${registerSuccess}" style="background-color: green">
+    Register succeeds, your id: <span th:text="${userId}">[userId]</span>
+</div>
+
+</body>
+</html>

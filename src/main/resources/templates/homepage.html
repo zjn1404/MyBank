@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Homepage</title>
+</head>
+<body>
+
+<h2>
+    Hello
+    <span th:text="${userName}" th:remove="tag">[userName]</span>
+    {id:
+    <span th:text="${userId}" th:remove="tag">[userId]</span>
+    }
+    here are your transactions
+</h2>
+<table border="1">
+    <thead>
+    <tr th:if="${transactions.empty}">
+        <td colspan="2"> No Transactions </td>
+    </tr>
+    <tr th:unless="${transactions.empty}">
+        <th> # </th>
+        <th> Amount </th>
+        <th> Timestamp </th>
+        <th> Reference </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transaction : ${transactions}">
+        <td><span th:text="${transaction.id}"> Id </span></td>
+        <td><span th:text="${transaction.amount}"> Amount </span></td>
+        <td><span th:text="${transaction.timestamp}"> Timestamp </span></td>
+        <td><span th:text="${transaction.reference}"> Reference </span></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>New transaction</h2>
+<form th:action="@{/account/{userId}(userId=${userId})}" th:object="${addTransactionForm}" method="post">
+
+    <p>UserId: <input type="text" th:field="*{receivingUserId}"/></p>
+    <p style="background-color: red" th:if="${#fields.hasErrors('receivingUserId')}" th:errors="*{receivingUserId}"></p>
+
+    <p>Amount: <input type="number" step="1" th:field="*{amount}"/></p>
+    <p style="background-color: red" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+
+    <p>Reference: <input type="text" th:field="*{reference}"/></p>
+    <p style="background-color: red" th:if="${#fields.hasErrors('reference')}" th:errors="*{reference}"></p>
+
+    <p> <input type="submit" value="submit"/></p>
+
+</form>
+
+</body>
+</html>
